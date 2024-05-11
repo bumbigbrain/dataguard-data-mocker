@@ -50,7 +50,7 @@ class Mocker():
     def generateVDATAGUARD_STATS(self):
 
 
-        for i in range(10):    
+        while True:    
             print("start generating") 
             head = "INSERT INTO V$DATAGUARD_STATS VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"    
             # random theseq 
@@ -67,8 +67,8 @@ class Mocker():
                 
             self.cursor.executemany(head, val)
             self.conn.commit()
-            print("waiting for 3s")
-            time.sleep(3)
+            print("waiting for 1s")
+            time.sleep(1)
 
 
 
