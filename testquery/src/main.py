@@ -27,7 +27,7 @@ def main():
 
     print("")    
     print("LATEST APPLY FINISH TIME QUERY")
-    apply_finish_time_query = "SELECT * FROM V$DATAGUARD_STATS WHERE NAME='APPLY_FINISH_TIME' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    apply_finish_time_query = "SELECT VALUE FROM V$DATAGUARD_STATS WHERE NAME='APPLY_FINISH_TIME' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
     cursor.execute(apply_finish_time_query)
     for item in cursor:
         print(item)
@@ -36,7 +36,7 @@ def main():
 
     print("") 
     print("LATEST APPLY LAG QUERY")
-    latest_apply_lag_query = "SELECT * FROM V$DATAGUARD_STATS WHERE NAME='APPLY_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    latest_apply_lag_query = "SELECT VALUE FROM V$DATAGUARD_STATS WHERE NAME='APPLY_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
     cursor.execute(latest_apply_lag_query)
     for item in cursor:
         print(item)
@@ -44,10 +44,39 @@ def main():
 
     print("")    
     print("LATEST TRANSPORT LAG QUERY")
-    latest_transport_lag_query = "SELECT * FROM V$DATAGUARD_STATS WHERE NAME='TRANSPORT_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    latest_transport_lag_query = "SELECT VALUE FROM V$DATAGUARD_STATS WHERE NAME='TRANSPORT_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
     cursor.execute(latest_transport_lag_query)
     for item in cursor:
         print(item)
+
+
+
+
+    print("")    
+    print("LATEST APPLY FINISH TIME (TO MILLISECOND) QUERY")
+    apply_finish_time_query = "SELECT (CAST(SUBSTRING(VALUE, 5, 2) AS INT) * 3600000) + (CAST(SUBSTRING(VALUE, 8, 2) AS INT) * 60000) + (CAST(SUBSTRING(VALUE, 11, 2) AS INT) * 1000) AS milliseconds FROM V$DATAGUARD_STATS WHERE NAME='APPLY_FINISH_TIME' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    cursor.execute(apply_finish_time_query)
+    for item in cursor:
+        print(item)
+
+
+
+    print("") 
+    print("LATEST APPLY LAG QUERY")
+    latest_apply_lag_query = "SELECT (CAST(SUBSTRING(VALUE, 5, 2) AS INT) * 3600000) + (CAST(SUBSTRING(VALUE, 8, 2) AS INT) * 60000) + (CAST(SUBSTRING(VALUE, 11, 2) AS INT) * 1000) AS milliseconds FROM V$DATAGUARD_STATS WHERE NAME='APPLY_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    cursor.execute(latest_apply_lag_query)
+    for item in cursor:
+        print(item)
+
+
+    print("")    
+    print("LATEST TRANSPORT LAG QUERY")
+    latest_transport_lag_query = "SELECT (CAST(SUBSTRING(VALUE, 5, 2) AS INT) * 3600000) + (CAST(SUBSTRING(VALUE, 8, 2) AS INT) * 60000) + (CAST(SUBSTRING(VALUE, 11, 2) AS INT) * 1000) AS milliseconds FROM V$DATAGUARD_STATS WHERE NAME='TRANSPORT_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    cursor.execute(latest_transport_lag_query)
+    for item in cursor:
+        print(item)
+
+
 
 
 
