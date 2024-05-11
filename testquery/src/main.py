@@ -79,6 +79,20 @@ def main():
 
 
 
+    print("")    
+    print("QUERY DICT")
+    latest_transport_lag_query = "SELECT * FROM V$DATAGUARD_STATS WHERE NAME='TRANSPORT_LAG' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
+    cursor.execute(latest_transport_lag_query)
+    results = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+
+    # Convert tuples to dictionaries (Method 1)
+    for row in results:
+        data_dict = dict(zip(column_names, row))
+        result = data_dict    
+    print(result)
+    
+
 
 
 if __name__ == "__main__":
