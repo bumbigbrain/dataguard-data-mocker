@@ -57,7 +57,8 @@ def main():
     apply_finish_time_query = "SELECT (CAST(SUBSTRING(VALUE, 5, 2) AS INT) * 3600000) + (CAST(SUBSTRING(VALUE, 8, 2) AS INT) * 60000) + (CAST(SUBSTRING(VALUE, 11, 2) AS INT) * 1000) AS milliseconds FROM V$DATAGUARD_STATS WHERE NAME='APPLY_FINISH_TIME' ORDER BY CAST(TIME_COMPUTED AS DATETIME) DESC LIMIT 1;" 
     cursor.execute(apply_finish_time_query)
     for item in cursor:
-        print(item)
+        print(item[0])
+        print(type(item[0]))
 
 
 
