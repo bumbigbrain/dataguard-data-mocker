@@ -38,6 +38,23 @@ class Mocker():
         self.cursor.execute(create_dataguard_stats_table)
 
 
+    def create_DATAGUARD_STATUS_TABLE(self):
+        create_dataguard_status_table = """
+        CREATE TABLE V$DATAGUARD_STATUS (
+            FACILITY VARCHAR (24),
+            SEVERITY VARCHAR (13),
+            DEST_ID INT,
+            MESSAGE_NUM INT,
+            ERROR_CODE INT,
+            CALLOUT VARCHAR (3),
+            TIMESTAMP DATE,
+            MESSAGE VARCHAR (256),
+            CON_ID INT
+        ) """
+        self.cursor.execute(create_dataguard_status_table)
+
+
+
 
     def randomTimeInterval():
         random_minute = random.randint(53, 59)
@@ -69,6 +86,14 @@ class Mocker():
             self.conn.commit()
             print("waiting for 1s")
             time.sleep(1)
+    
+    def generateVDATAGUARD_STATUS(self):
+        
+        while True:
+
+            pass
+        
+
 
 
 
@@ -94,7 +119,8 @@ def main():
         print("error")
     
     
-    mocker.generateVDATAGUARD_STATS() 
+    # mocker.generateVDATAGUARD_STATS() 
+    # mocker.create_DATAGUARD_STATUS_TABLE()
     
     
     
@@ -106,6 +132,7 @@ if __name__ == "__main__":
 
 """
 
+V$DATAGUARD_STATS
 
 SOURCE_DBID = const
 SOURCE_DB_UNIQUE_NAME = const
@@ -136,6 +163,52 @@ VALUE = [random]
 TIME_COMPUTED = [x^]
 DATUM_TIME = TIME_COMPUTED
 CON_ID = nvm
+
+
+
+
+"""
+
+
+
+
+"""
+
+
+V$DATAGUARD_STATUS
+
+FACILITY : [random(
+    CrashRecovery, 
+    LogTransportService, 
+    LogApplyService, 
+    RoleManagementService, 
+    RemoteFileServer, 
+    FetchArchiveLog, 
+    DataGuard, 
+    NetworkServices
+    )]
+
+SEVERITY : [random(
+    InformationMessage,
+    WarningMessage,
+    ErrorMessage,
+    Fatal,
+    Control
+    )]
+
+DEST_ID : [const]
+
+MESSAGE_NUM : [const]
+
+ERROR_CODE : [const]
+
+CALLOUT : [const]
+
+TIMESTAMP : [str(datetime.now)]
+
+MESSAGE : [random(string)]
+
+CON_ID : [const]
 
 
 """
