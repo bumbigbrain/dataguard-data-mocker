@@ -61,8 +61,20 @@ class Mocker():
         random_second = random.randint(10, 50)
         
         return f"+00 00:{random_minute}:{random_second}"
-        
 
+
+    def randomFacility():
+        facility = ["Crash Recovery", "Log Transport Services", "Log Apply Services", "Role Management Services", "Remote File Server", "Fetch Archive Log", "Data Guard", "Network Services"]
+        return facility[random.randint(0, len(facility)-1)] 
+        
+    def randomSeverity():
+        severity = ["Information", "Warning", "Error", "Fatal", "Control"]
+        return severity[random.randint(0, len(severity)-1)]
+    
+
+    def randomMessage():
+        messages = ["eat pizza", "running", "swimming", "cat", "dog"]
+        return messages[random.randint(0, len(messages)-1)]
 
     def generateVDATAGUARD_STATS(self):
 
@@ -90,8 +102,32 @@ class Mocker():
     def generateVDATAGUARD_STATUS(self):
         
         while True:
+            print("start generating")
 
-            pass
+            FACILITY = Mocker.randomFacility()
+            SEVERITY = Mocker.randomSeverity()
+            DEST_ID = 1
+            MESSAGE_NUM = 1
+            ERROR_CODE = 0
+            CALLOUT = "co"
+            TIMESTAMP = str(datetime.now())
+            MESSAGE = Mocker.randomMessage()
+            CON_ID = 0
+
+            
+
+
+            head = "INSERT INTO V$DATAGUARD_STATUS VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"    
+            val = [
+                (FACILITY, SEVERITY, DEST_ID, MESSAGE_NUM, ERROR_CODE, CALLOUT, TIMESTAMP, MESSAGE, CON_ID)
+            ]
+             
+            self.cursor.executemany(head, val)
+            self.conn.commit()
+            print("waiting for 1s")
+            time.sleep(1)
+            
+
         
 
 
@@ -121,6 +157,7 @@ def main():
     
     # mocker.generateVDATAGUARD_STATS() 
     # mocker.create_DATAGUARD_STATUS_TABLE()
+    mocker.generateVDATAGUARD_STATUS()
     
     
     
