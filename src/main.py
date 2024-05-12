@@ -1,5 +1,5 @@
 import mysql.connector
-from datetime import datetime
+import datetime
 import time
 import random
 
@@ -55,6 +55,15 @@ class Mocker():
 
 
 
+    def randomTimeStamp():
+        # 05/10/2024 16:59:56  
+        
+        random_day = random.randint(10, 11)
+        random_minute = random.randint(50, 59)
+        random_second = random.randint(10,50)
+        return f"05/{random_day}/2024 16:{random_minute}:{random_second}"
+        
+
 
     def randomTimeInterval():
         random_minute = random.randint(53, 59)
@@ -86,12 +95,13 @@ class Mocker():
             APPLY_FINISH_TIME_VALUE = Mocker.randomTimeInterval()  
             APPLY_LAG = Mocker.randomTimeInterval() 
             TRANSPORT_LAG =  Mocker.randomTimeInterval()
+            TIMESTAMP = Mocker.randomTimeStamp()
 
 
             val = [
-                (112, "DB01", "APPLY_FINISH_TIME", f"{APPLY_FINISH_TIME_VALUE}", "interval", f"{str(datetime.now())}", f"{str(datetime.now())}", 1),
-                (112, "DB01", "APPLY_LAG", f"{APPLY_LAG}", "interval", f"{str(datetime.now())}", f"{str(datetime.now())}", 1),
-                (112, "DB01", "TRANSPORT_LAG", f"{TRANSPORT_LAG}", "interval", f"{str(datetime.now())}", f"{str(datetime.now())}", 1)
+                (112, "DB01", "APPLY_FINISH_TIME", f"{APPLY_FINISH_TIME_VALUE}", "interval", TIMESTAMP, TIMESTAMP, 1),
+                (112, "DB01", "APPLY_LAG", f"{APPLY_LAG}", "interval", TIMESTAMP, TIMESTAMP, 1),
+                (112, "DB01", "TRANSPORT_LAG", f"{TRANSPORT_LAG}", "interval", TIMESTAMP, TIMESTAMP, 1)
             ]
                 
             self.cursor.executemany(head, val)
@@ -114,7 +124,7 @@ class Mocker():
             MESSAGE = Mocker.randomMessage()
             CON_ID = 0
 
-            
+            print(TIMESTAMP) 
 
 
             head = "INSERT INTO V$DATAGUARD_STATUS VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"    
@@ -155,9 +165,14 @@ def main():
         print("error")
     
     
-    # mocker.generateVDATAGUARD_STATS() 
+    mocker.generateVDATAGUARD_STATS() 
     # mocker.create_DATAGUARD_STATUS_TABLE()
-    mocker.generateVDATAGUARD_STATUS()
+    # mocker.generateVDATAGUARD_STATUS()
+    # today = datetime.date.today()
+    # delta_time = datetime.timedelta(days=1)
+    # print(today)
+    # print(today-delta_time)
+
     
     
     
